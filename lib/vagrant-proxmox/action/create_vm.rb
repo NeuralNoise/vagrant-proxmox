@@ -37,16 +37,18 @@ module VagrantPlugins
 				private
 				def create_params_qemu(config, env, vm_id)
 					network = 'e1000,bridge=vmbr0'
+					network1 = 'e1000,bridge=vmbr2'
 					network = "e1000=#{get_machine_macaddress(env)},bridge=vmbr0" if get_machine_macaddress(env)
 					{vmid: vm_id,
 					 name: env[:machine].config.vm.hostname || env[:machine].name.to_s,
 					 ostype: config.qemu_os,
 					 ide2: "#{config.qemu_iso},media=cdrom",
-					 sata0: "#{config.qemu_storage}:#{config.qemu_disk_size},format=qcow2",
+					 sata0: "#{config.qemu_storage}:#{config.qemu_disk_size},format=raw",
 					 sockets: 1,
 					 cores: 1,
 					 memory: config.vm_memory,
 					 net0: network,
+					 net1: network1,
 					 description: "#{config.vm_name_prefix}#{env[:machine].name}"}
 				end
 
